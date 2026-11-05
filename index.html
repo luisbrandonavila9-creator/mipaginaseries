@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SerieMatch – Encuentra series hechas para tu estilo</title>
+<style>
+  :root { --rojo:#9b1c2e; --texto:#1f1f1f; --fondo:#faf7f5; --gris:#6b6b6b; --borde:#e2dcd8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, Arial, sans-serif; font-size:16px; line-height:1.5; color:var(--texto); background:var(--fondo); padding-bottom:72px; }
+  header { background:#fff; border-bottom:1px solid var(--borde); padding:12px 16px; position:sticky; top:0; z-index:5; }
+  .barra { max-width:1000px; margin:auto; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .logo { font-weight:800; font-size:1.25rem; color:var(--rojo); text-decoration:none; }
+  .buscador { flex:1; min-width:160px; padding:10px 12px; font-size:1rem; border:1px solid var(--borde); border-radius:8px; }
+  nav.menu { display:flex; gap:4px; }
+  nav.menu a { padding:10px 12px; color:var(--texto); text-decoration:none; border-radius:8px; min-height:44px; display:flex; align-items:center; }
+  nav.menu a[aria-current="true"] { background:var(--rojo); color:#fff; }
+  main { max-width:1000px; margin:auto; padding:16px; }
+  section { margin-bottom:40px; scroll-margin-top:90px; }
+  h1 { font-size:1.8rem; line-height:1.2; margin:16px 0 8px; }
+  h2 { font-size:1.35rem; margin:0 0 12px; }
+  .sub { color:var(--gris); margin:0 0 16px; }
+  .btn { background:var(--rojo); color:#fff; border:0; border-radius:10px; padding:14px 22px; font-size:1.05rem; font-weight:600; min-height:48px; cursor:pointer; }
+  .btn:focus-visible, .chip:focus-visible, .mini:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #1a5fb4; outline-offset:2px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .chip { border:2px solid var(--borde); background:#fff; border-radius:999px; padding:10px 16px; font-size:1rem; min-height:44px; cursor:pointer; }
+  .chip[aria-pressed="true"] { background:var(--rojo); border-color:var(--rojo); color:#fff; }
+  .pasos { display:grid; gap:8px; padding:0; list-style:none; margin:16px 0; }
+  .pasos li { background:#fff; border:1px solid var(--borde); border-radius:10px; padding:10px 14px; }
+  .lista { display:grid; gap:12px; grid-template-columns:1fr; }
+  .card { display:flex; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:12px; padding:12px; }
+  .poster { flex:0 0 76px; height:110px; border-radius:8px; color:#fff; font-weight:800; font-size:1.6rem; display:flex; align-items:center; justify-content:center; }
+  .info h3 { margin:0; font-size:1.1rem; }
+  .meta { color:var(--gris); font-size:.9rem; margin:2px 0 6px; }
+  .resena { margin:0 0 8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .resena.abierta { display:block; }
+  .acciones { display:flex; gap:8px; flex-wrap:wrap; }
+  .mini { border:1px solid var(--borde); background:#fff; border-radius:8px; padding:8px 12px; min-height:44px; font-size:.95rem; cursor:pointer; }
+  .mini[aria-pressed="true"] { background:#1f1f1f; color:#fff; border-color:#1f1f1f; }
+  .vacio { color:var(--gris); background:#fff; border:1px dashed var(--borde); padding:16px; border-radius:10px; }
+  .bottom { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--borde); display:flex; justify-content:space-around; padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px)); }
+  .bottom a { text-decoration:none; color:var(--texto); font-size:.8rem; text-align:center; padding:6px 16px; min-height:44px; display:flex; flex-direction:column; align-items:center; }
+  .bottom a[aria-current="true"] { color:var(--rojo); font-weight:700; }
+  footer { text-align:center; color:var(--gris); font-size:.85rem; padding:16px; }
+  @media (min-width:700px) { .lista { grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:960px) { .lista { grid-template-columns:repeat(3,1fr); } body { padding-bottom:0; } .bottom { display:none; } }
+  @media (max-width:959px) { nav.menu { display:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="barra">
+    <a class="logo" href="#inicio">SerieMatch</a>
+    <input id="buscar" class="buscador" type="search" placeholder="Buscar una serie" aria-label="Buscar una serie">
+    <nav class="menu" aria-label="Menú principal">
+      <a href="#inicio" data-sec="inicio">Inicio</a>
+      <a href="#series" data-sec="series">Series</a>
+      <a href="#mis-series" data-sec="mis-series">Mis series</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="inicio">
+    <h1>Encuentra series hechas para tu estilo</h1>
+    <p class="sub">Elige los géneros que te gustan y te recomendamos series.</p>
+    <ol class="pasos">
+      <li>1. Elige géneros</li>
+      <li>2. Dinos qué series te gustan</li>
+      <li>3. Recibe recomendaciones</li>
+    </ol>
+    <div id="generos-test" class="chips" role="group" aria-label="Géneros que te gustan"></div>
+    <button class="btn" id="ver-recs">Ver recomendaciones</button>
+    <div id="recs" class="lista" style="margin-top:16px" aria-live="polite"></div>
+  </section>
+
+  <section id="series">
+    <h2>Todas las series</h2>
+    <div id="filtros" class="chips" role="group" aria-label="Filtrar por género"></div>
+    <div id="catalogo" class="lista"></div>
+  </section>
+
+  <section id="mis-series">
+    <h2>Mis series</h2>
+    <div id="mis" class="lista"></div>
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Menú principal móvil">
+  <a href="#inicio" data-sec="inicio"><span aria-hidden="true">🏠</span>Inicio</a>
+  <a href="#series" data-sec="series"><span aria-hidden="true">📺</span>Series</a>
+  <a href="#mis-series" data-sec="mis-series"><span aria-hidden="true">❤️</span>Mis series</a>
+</nav>
+
+<footer>Proyecto escolar · Datos de ejemplo</footer>
+
+<script>
+const SERIES = [
+  { t:"Breaking Bad", a:2008, g:["Drama","Crimen","Thriller"], r:"Un profesor de química entra al mundo del narcotráfico. Tensa y adictiva." },
+  { t:"Stranger Things", a:2016, g:["Ciencia ficción","Misterio"], r:"Niños, monstruos y misterios en un pueblo de los años 80." },
+  { t:"The Office", a:2005, g:["Comedia"], r:"Humor incómodo y cotidiano en una oficina de papel." },
+  { t:"Dark", a:2017, g:["Ciencia ficción","Misterio","Thriller"], r:"Viajes en el tiempo y secretos familiares. Hay que prestar atención." },
+  { t:"Brooklyn Nine-Nine", a:2013, g:["Comedia","Crimen"], r:"Policías de comedia: ligera, divertida y fácil de maratonear." },
+  { t:"Sherlock", a:2010, g:["Misterio","Crimen","Drama"], r:"El detective clásico llevado a la actualidad con casos ingeniosos." },
+  { t:"Black Mirror", a:2011, g:["Ciencia ficción","Thriller"], r:"Historias independientes sobre los riesgos de la tecnología." },
+  { t:"Friends", a:1994, g:["Comedia","Romance"], r:"Seis amigos, mucho café y una comedia que muchos ven una y otra vez." },
+  { t:"Peaky Blinders", a:2013, g:["Drama","Crimen"], r:"Una familia de gánsteres en la Inglaterra de posguerra." },
+  { t:"Avatar: la leyenda de Aang", a:2005, g:["Animación","Fantasía"], r:"Aventura animada con grandes personajes, apta para todas las edades." },
+  { t:"Game of Thrones", a:2011, g:["Fantasía","Drama"], r:"Intrigas y guerras por el trono en un mundo de fantasía." },
+  { t:"The Bear", a:2022, g:["Drama","Comedia"], r:"El caos de una cocina de restaurante y una familia que intenta salir adelante." }
+];
+const GENEROS = [...new Set(SERIES.flatMap(s => s.g))].sort();
+const $ = id => document.getElementById(id);
+
+// Estado (localStorage con try/catch por si el navegador lo bloquea)
+let pref = {};
+try { pref = JSON.parse(localStorage.getItem("pref") || "{}"); } catch (e) { pref = {}; }
+const guardar = () => { try { localStorage.setItem("pref", JSON.stringify(pref)); } catch (e) {} };
+let elegidosTest = new Set(), filtro = null, texto = "";
+
+function color(t) { let h = 0; for (const c of t) h = (h * 31 + c.charCodeAt(0)) % 360; return `hsl(${h},45%,32%)`; }
+function iniciales(t) { return t.split(" ").filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join("").toUpperCase() || t[0]; }
+
+function tarjeta(s) {
+  const p = pref[s.t];
+  const el = document.createElement("article");
+  el.className = "card";
+  el.innerHTML = `
+    <div class="poster" style="background:${color(s.t)}" role="img" aria-label="Póster de la serie ${s.t}">${iniciales(s.t)}</div>
+    <div class="info">
+      <h3>${s.t}</h3>
+      <p class="meta">${s.a} · ${s.g.join(", ")}</p>
+      <p class="resena">${s.r}</p>
+      <div class="acciones">
+        <button class="mini" data-acc="like" aria-pressed="${p === "like"}">👍 Me gusta</button>
+        <button class="mini" data-acc="dislike" aria-pressed="${p === "dislike"}">👎 No me gusta</button>
+        <button class="mini" data-acc="mas">Ver más</button>
+      </div>
+    </div>`;
+  el.addEventListener("click", e => {
+    const acc = e.target.dataset && e.target.dataset.acc;
+    if (!acc) return;
+    if (acc === "mas") {
+      const r = el.querySelector(".resena"); r.classList.toggle("abierta");
+      e.target.textContent = r.classList.contains("abierta") ? "Ver menos" : "Ver más";
+      return;
+    }
+    pref[s.t] = pref[s.t] === acc ? undefined : acc; // tocar de nuevo = deshacer
+    if (!pref[s.t]) delete pref[s.t];
+    guardar(); pintarTodo();
+  });
+  return el;
+}
+
+function lista(cont, arr, vacio) {
+  cont.innerHTML = "";
+  if (!arr.length) { cont.innerHTML = `<p class="vacio">${vacio}</p>`; return; }
+  arr.forEach(s => cont.appendChild(tarjeta(s)));
+}
+
+function chips(cont, onClick, activo) {
+  cont.innerHTML = "";
+  GENEROS.forEach(g => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = g;
+    b.setAttribute("aria-pressed", activo(g));
+    b.onclick = () => onClick(g);
+    cont.appendChild(b);
+  });
+}
+
+function recomendar() {
+  const gustados = new Set(SERIES.filter(s => pref[s.t] === "like").flatMap(s => s.g));
+  const puntos = s => s.g.filter(g => elegidosTest.has(g)).length * 2 + s.g.filter(g => gustados.has(g)).length;
+  const arr = SERIES.filter(s => pref[s.t] !== "dislike" && puntos(s) > 0).sort((a, b) => puntos(b) - puntos(a)).slice(0, 6);
+  lista($("recs"), arr, "Elige al menos un género para ver recomendaciones.");
+  if (arr.length) $("recs").scrollIntoView({ behavior:"smooth", block:"nearest" });
+}
+
+function pintarTodo() {
+  chips($("generos-test"), g => { elegidosTest.has(g) ? elegidosTest.delete(g) : elegidosTest.add(g); pintarTodo(); }, g => elegidosTest.has(g));
+  chips($("filtros"), g => { filtro = filtro === g ? null : g; pintarTodo(); }, g => filtro === g);
+  const q = texto.trim().toLowerCase();
+  const cat = SERIES.filter(s => (!filtro || s.g.includes(filtro)) && s.t.toLowerCase().includes(q));
+  lista($("catalogo"), cat, "No encontramos esa serie. ¿Probamos con otro título?");
+  lista($("mis"), SERIES.filter(s => pref[s.t] === "like"), "Aún no tienes series. Toca “Me gusta” en las que te gusten.");
+}
+
+$("ver-recs").onclick = recomendar;
+$("buscar").oninput = e => { texto = e.target.value; pintarTodo(); if (texto) location.hash = "#series"; };
+
+// Resaltar la sección actual en el menú
+const links = document.querySelectorAll("[data-sec]");
+function marcar() {
+  const sec = (location.hash || "#inicio").slice(1);
+  links.forEach(a => a.setAttribute("aria-current", a.dataset.sec === sec));
+}
+window.addEventListener("hashchange", marcar); marcar();
+pintarTodo();
+</script>
+</body>
+</html>

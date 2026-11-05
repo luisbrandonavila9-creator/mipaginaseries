@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11100e">
+  <meta name="description" content="Una guía breve y original de ¿Qué pasó ayer?: sinopsis, personajes y curiosidades.">
+  <title>¿Qué pasó ayer? — Noche en Las Vegas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #11100e;
+      --panel: #1c1a16;
+      --panel-soft: #242119;
+      --gold: #e8bd62;
+      --gold-light: #f4d995;
+      --text: #f7f2e8;
+      --muted: #c2baaa;
+      --line: rgba(232, 189, 98, .28);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(177, 119, 37, .2), transparent 48%),
+        var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--gold-light);
+      outline-offset: 4px;
+    }
+
+    .wrap {
+      width: min(1080px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      color: var(--gold-light);
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; flex-wrap: wrap; gap: 20px; }
+    nav a {
+      color: var(--muted);
+      font-size: .9rem;
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--gold-light); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      min-height: 440px;
+      place-items: center;
+      padding-block: 82px 72px;
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .hero::before, .hero::after {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      border: 1px solid rgba(232, 189, 98, .12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before { width: 410px; height: 410px; }
+    .hero::after { width: 540px; height: 540px; }
+
+    .hero-content { max-width: 800px; }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--gold);
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 9vw, 6.7rem);
+      font-weight: 700;
+      letter-spacing: -.055em;
+      line-height: .98;
+      text-wrap: balance;
+      text-shadow: 0 5px 32px rgba(232, 189, 98, .14);
+    }
+
+    h1 span {
+      display: block;
+      margin-top: 15px;
+      color: var(--gold);
+      font-family: system-ui, sans-serif;
+      font-size: clamp(.85rem, 2vw, 1.05rem);
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .hero-copy {
+      max-width: 590px;
+      margin: 25px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero-mark {
+      display: inline-grid;
+      width: 44px;
+      height: 44px;
+      margin-top: 30px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 1.25rem;
+    }
+
+    main { padding-bottom: 72px; }
+    section { scroll-margin-top: 24px; }
+
+    .section-heading { margin-bottom: 22px; }
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      line-height: 1.2;
+    }
+    .section-heading p { margin: 8px 0 0; color: var(--muted); }
+
+    .synopsis {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(232, 189, 98, .08), transparent 70%), var(--panel);
+    }
+    .synopsis p { max-width: 820px; margin: 0; color: #e6dfd1; font-size: 1.05rem; }
+    .synopsis strong { color: var(--gold-light); }
+
+    .characters { margin-top: 66px; }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .character-card {
+      min-height: 205px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: var(--radius);
+      background: var(--panel);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .character-card:hover { transform: translateY(-4px); border-color: var(--line); }
+    .character-number {
+      color: var(--gold);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+    .character-card h3 { margin: 12px 0 6px; font-size: 1.3rem; }
+    .character-card p { margin: 0; color: var(--muted); font-size: .94rem; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 66px;
+    }
+    .facts-list, .random-box {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+    .facts-list ul { display: grid; gap: 14px; margin: 20px 0 0; padding: 0; list-style: none; }
+    .facts-list li { position: relative; padding-left: 23px; color: #e6dfd1; }
+    .facts-list li::before {
+      position: absolute;
+      top: .66em;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      content: "";
+    }
+    .random-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(145deg, rgba(232, 189, 98, .11), transparent 75%), var(--panel-soft);
+    }
+    .random-box h2 { font-size: 1.65rem; }
+    .random-box p { color: var(--muted); }
+    #random-fact {
+      min-height: 3.2em;
+      margin: 8px 0 20px;
+      color: var(--gold-light);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    button {
+      align-self: flex-start;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--gold);
+      color: #21190a;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      transition: background .2s ease, transform .2s ease;
+    }
+    button:hover { transform: translateY(-2px); background: var(--gold-light); }
+    button:active { transform: translateY(0); }
+
+    footer {
+      padding-block: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .85rem;
+      text-align: center;
+    }
+    footer p { margin: 0; }
+
+    @media (max-width: 760px) {
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .facts { grid-template-columns: 1fr; }
+      .hero { min-height: 390px; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 30px, 1080px); }
+      .topbar { align-items: flex-start; flex-direction: column; gap: 12px; }
+      nav { gap: 14px; }
+      nav a { font-size: .84rem; }
+      .hero { min-height: 350px; padding-block: 65px 56px; }
+      .hero-copy { font-size: .96rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .character-card { min-height: 0; }
+      .synopsis, .facts-list, .random-box { padding: 22px; }
+      .characters, .facts { margin-top: 52px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="topbar">
+      <a class="brand" href="#inicio" aria-label="Noche en Las Vegas, inicio">Noche en Las Vegas</a>
+      <nav aria-label="Navegación principal">
+        <a href="#sinopsis">Sinopsis</a>
+        <a href="#personajes">Personajes</a>
+        <a href="#curiosidades">Curiosidades</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="hero" id="inicio" aria-labelledby="titulo-principal">
+      <div class="hero-content">
+        <p class="eyebrow">Una comedia de amigos · Las Vegas</p>
+        <h1 id="titulo-principal">¿Qué pasó ayer?<span>The Hangover · 2009</span></h1>
+        <p class="hero-copy">Una despedida de soltero, una ciudad que nunca duerme y una mañana llena de preguntas.</p>
+        <span class="hero-mark" aria-hidden="true">✦</span>
+      </div>
+    </section>
+
+    <main>
+      <section class="synopsis" id="sinopsis" aria-labelledby="titulo-sinopsis">
+        <div class="section-heading">
+          <p class="eyebrow">La historia</p>
+          <h2 id="titulo-sinopsis">Sinopsis breve</h2>
+        </div>
+        <p>Después de una noche de celebración en Las Vegas, Phil, Stu y Alan despiertan con la suite hecha un caos y <strong>Doug, el novio, desaparecido</strong>. Sin recordar qué ocurrió, el grupo reconstruye sus pasos por la ciudad para encontrarlo antes de la boda. Cada pista complica un poco más su misión.</p>
+      </section>
+
+      <section class="characters" id="personajes" aria-labelledby="titulo-personajes">
+        <div class="section-heading">
+          <p class="eyebrow">El grupo de amigos</p>
+          <h2 id="titulo-personajes">Personajes</h2>
+          <p>Cuatro personalidades distintas, un viaje que ninguno olvidará.</p>
+        </div>
+        <div class="card-grid">
+          <article class="character-card">
+            <span class="character-number">01 · EL PRÁCTICO</span>
+            <h3>Phil</h3>
+            <p>Profesor y padre de familia; suele tomar la iniciativa cuando el plan se desmorona.</p>
+          </article>
+          <article class="character-card">
+            <span class="character-number">02 · EL PRECAVIDO</span>
+            <h3>Stu</h3>
+            <p>Un dentista amable que intenta mantener la calma mientras descubre sorpresas sobre sí mismo.</p>
+          </article>
+          <article class="character-card">
+            <span class="character-number">03 · EL IMPREDECIBLE</span>
+            <h3>Alan</h3>
+            <p>El futuro cuñado de Doug aporta ocurrencias inesperadas y una forma muy particular de ver el mundo.</p>
+          </article>
+          <article class="character-card">
+            <span class="character-number">04 · EL NOVIO</span>
+            <h3>Doug</h3>
+            <p>El protagonista de la despedida. Su ausencia convierte la mañana siguiente en una búsqueda urgente.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="facts" id="curiosidades" aria-label="Datos curiosos y frase aleatoria">
+        <div class="facts-list">
+          <div class="section-heading">
+            <p class="eyebrow">Detrás de la película</p>
+            <h2>Datos curiosos</h2>
+          </div>
+          <ul>
+            <li>La película fue dirigida por Todd Phillips.</li>
+            <li>Su estreno original en Estados Unidos fue en junio de 2009.</li>
+            <li>La historia transcurre principalmente en Las Vegas y sigue una búsqueda a contrarreloj.</li>
+            <li>El éxito de la comedia dio lugar a dos secuelas.</li>
+          </ul>
+        </div>
+        <div class="random-box">
+          <p class="eyebrow">Una sorpresa al azar</p>
+          <h2>La noche dejó pistas</h2>
+          <p id="random-fact" role="status" aria-live="polite">Pulsa el botón para descubrir una frase original.</p>
+          <button id="random-button" type="button">Descubrir una frase</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p>Una guía original para fans de la comedia. Información presentada con fines descriptivos.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const frases = [
+        "En Las Vegas, hasta el amanecer puede convertirse en una pista.",
+        "Tres amigos, una ciudad brillante y un misterio por resolver.",
+        "La memoria vuelve poco a poco; las sorpresas, todas de golpe.",
+        "Una buena búsqueda empieza reuniendo las piezas de la noche.",
+        "En esta aventura, el plan cambia cada vez que aparece una nueva pista."
+      ];
+      const salida = document.getElementById("random-fact");
+      const boton = document.getElementById("random-button");
+
+      boton.addEventListener("click", () => {
+        const indice = Math.floor(Math.random() * frases.length);
+        salida.textContent = frases[indice];
+      });
+    })();
+  </script>
+</body>
+</html>
